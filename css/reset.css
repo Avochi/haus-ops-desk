@@ -1,0 +1,28 @@
+/* reset.css: token warna/tipografi + reset dasar. Mengikuti tema sistem (terang/gelap). */
+:root{
+  --bg:#FAF6FB; --surface:#FFFFFF; --fg:#21142B; --muted:#6D5F78; --line:#E9DFEF; --soft:#F3EAF7;
+  --magenta:#CF1F6A; --purple:#5B2A91; --orange:#DE7A08;
+  --good:#1B7F4B; --good-bg:#E3F4EA; --warn:#9A5B00; --warn-bg:#FFF0D6; --bad:#B3261E; --bad-bg:#FCE6E4;
+  --on-accent:#FFFFFF;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'Figtree','Segoe UI',system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#150E1B; --surface:#1F1528; --fg:#F4EDF8; --muted:#AC9EB9; --line:#352740; --soft:#2A1E35;
+    --magenta:#FF5A9C; --purple:#B48CEB; --orange:#FFA63D;
+    --good:#6FDCA0; --good-bg:#16352A; --warn:#FFC670; --warn-bg:#3A2B10; --bad:#FF9C94; --bad-bg:#42201D;
+    --on-accent:#1A0F22; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--body)}
+h1,h2,h3,h4,h5,p{margin:0}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:.92em}
+:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+[hidden]{display:none!important}

@@ -1,0 +1,34 @@
+/* layout.css: kerangka halaman, header, tab, toolbar, login, sheet form. */
+.wrap{max-width:980px;margin:0 auto;padding-block:20px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);font-weight:700}
+h1{font-size:30px;font-weight:800;line-height:1.1}
+
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:14px}
+.head-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sync{font-size:12px;color:var(--muted)}
+
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;
+  border-bottom:2px solid var(--line);margin-bottom:20px;padding-top:4px}
+nav.tabs a{padding:10px 16px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;
+  border-bottom:3px solid transparent;margin-bottom:-2px}
+nav.tabs a[aria-current="page"]{color:var(--fg);border-color:var(--magenta)}
+
+section.view,.view{display:grid;gap:16px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar>*{min-width:0}
+.toolbar .grow{flex:2 1 220px}
+.toolbar .sel{flex:1 1 170px}
+.list{display:grid;gap:8px}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+
+.login{min-height:70vh;display:grid;place-items:center}
+.login .card{width:100%;max-width:380px;display:grid;gap:14px}
+
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(20,10,30,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet>form{background:var(--surface);width:100%;max-width:520px;border-radius:16px 16px 0 0;
+  padding:20px 20px max(20px,env(safe-area-inset-bottom,0px));display:grid;gap:12px;max-height:92%;overflow:auto}
+@media(min-width:640px){.sheet{align-items:center}.sheet>form{border-radius:16px}}
+
+.formacts{display:flex;gap:8px;justify-content:flex-end}
+.form-grid{display:grid;gap:8px}

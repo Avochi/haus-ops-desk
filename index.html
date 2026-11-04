@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Haus Ops Desk</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<main class="wrap">
+
+  <!-- Muncul bila API_URL di js/config.js belum diisi -->
+  <section id="setupNotice" class="card" hidden>
+    <h1>Haus Ops Desk</h1>
+    <p>URL API belum diatur. Buka <code>js/config.js</code>, tempel URL web app Google Apps Script pada <code>API_URL</code>, lalu muat ulang halaman.</p>
+  </section>
+
+  <!-- Login passcode -->
+  <section id="login" class="login" hidden>
+    <form id="loginForm" class="card" autocomplete="off">
+      <div class="eyebrow">Operasional store</div>
+      <h1>Haus Ops Desk</h1>
+      <label for="passcode">Passcode
+        <input type="password" id="passcode" required maxlength="200" autocomplete="current-password">
+      </label>
+      <label class="inline"><input type="checkbox" id="remember"> Ingat di perangkat ini</label>
+      <div class="err" id="loginErr" role="alert"></div>
+      <button class="btn primary" type="submit" id="loginBtn">Masuk</button>
+    </form>
+  </section>
+
+  <!-- Aplikasi -->
+  <div id="app" hidden>
+    <header>
+      <div><div class="eyebrow">Operasional store</div><h1>Haus Ops Desk</h1></div>
+      <div class="head-right">
+        <span class="sync" id="sync" aria-live="polite"></span>
+        <button class="btn sm" id="reloadBtn" type="button">Muat ulang</button>
+        <button class="btn sm" id="logoutBtn" type="button">Keluar</button>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Menu utama">
+      <a href="#crew" data-tab="crew">Crew</a>
+      <a href="#sos" data-tab="sos">Sequence of Service</a>
+      <a href="#cek" data-tab="cek">Cek SOS</a>
+      <a href="#pickup" data-tab="pickup">Pickup Rules</a>
+    </nav>
+
+    <section class="view" id="v-crew" hidden>
+      <div class="stats" id="stats"></div>
+      <div class="toolbar">
+        <input class="grow" type="search" id="q" placeholder="Cari nama atau ID karyawan" aria-label="Cari crew">
+        <select class="sel" id="fStore" aria-label="Filter store"></select>
+        <select class="sel" id="fRole" aria-label="Filter jabatan"></select>
+        <button class="btn primary" id="addBtn" type="button">+ Tambah crew</button>
+      </div>
+      <div class="list" id="crewList"></div>
+    </section>
+
+    <section class="view" id="v-sos" hidden>
+      <div class="note">Standar pelayanan 5 tahap. Ketuk tiap tahap untuk lihat contoh percakapan. Untuk menilai crew langsung, buka tab Cek SOS.</div>
+      <div id="sosCards" class="list"></div>
+    </section>
+
+    <section class="view" id="v-cek" hidden>
+      <div class="toolbar">
+        <select class="sel" id="cekStore" aria-label="Pilih store"></select>
+        <select class="grow" id="cekCrew" aria-label="Pilih crew"></select>
+      </div>
+      <div id="cekBody" class="view"></div>
+    </section>
+
+    <section class="view" id="v-pickup" hidden>
+      <div class="note">Pick Up Rules standar (8 langkah dan aturan plastik). Ini baru sebagian aturan pickup; aturan lain bisa ditambahkan di bagian bawah.</div>
+      <div id="pickupRef" class="view"></div>
+      <h2 class="sub-h">Aturan tambahan</h2>
+      <form class="card form-grid" id="ruleForm">
+        <label for="ruleTitle">Judul aturan<input type="text" id="ruleTitle" maxlength="120" placeholder="Contoh: Waktu tunggu standar"></label>
+        <label for="ruleText">Isi aturan<textarea id="ruleText" maxlength="1500" placeholder="Tulis aturannya"></textarea></label>
+        <div class="err" id="ruleErr" role="alert"></div>
+        <div class="formacts"><button class="btn primary" type="submit" id="ruleBtn">Simpan aturan</button></div>
+      </form>
+      <div class="list" id="ruleList"></div>
+    </section>
+  </div>
+</main>
+
+<!-- Form tambah / edit crew -->
+<div class="sheet" id="sheet" hidden>
+  <form id="crewForm" autocomplete="off" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <h2 id="sheetTitle">Tambah crew</h2>
+    <label for="fId">ID Karyawan<input type="text" id="fId" inputmode="numeric" maxlength="40" required></label>
+    <label for="fNama">Nama<input type="text" id="fNama" required maxlength="80"></label>
+    <label for="fStoreIn">Store<input type="text" id="fStoreIn" list="storeOpts" required maxlength="80" placeholder="HAUS! JKT - NAMA STORE"></label>
+    <label for="fRoleIn">Jabatan<input type="text" id="fRoleIn" list="roleOpts" required maxlength="60"></label>
+    <datalist id="storeOpts"></datalist><datalist id="roleOpts"></datalist>
+    <div class="err" id="formErr" role="alert"></div>
+    <div class="formacts"><button type="button" class="btn" id="cancelBtn">Batal</button><button class="btn primary" type="submit" id="saveBtn">Simpan</button></div>
+  </form>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/sos-data.js"></script>
+<script src="js/pickup-data.js"></script>
+<script src="js/api.js"></script>
+<script src="js/state.js"></script>
+<script src="js/validators.js"></script>
+<script src="js/components.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
